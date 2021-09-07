@@ -1,0 +1,3 @@
+target_entry_class: Main
+source_root: src
+production_root: out

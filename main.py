@@ -1,14 +1,18 @@
-import argparse
 import os
-from subprocess import Popen, PIPE, STDOUT
+from subprocess import Popen, PIPE
+
+import hydra
+from omegaconf import OmegaConf
 
 
-def main():
+@hydra.main(config_path='configs', config_name='default_setup')
+def main(configs):
+    OmegaConf.set_struct(configs, False)
     project_root = "/Users/postbg/IdeaProjects/DataStructureAssignment/Assignment1"
-    source_root = f"{project_root}/src"
-    compile_path = f"{project_root}/out"
+    source_root = os.path.join(project_root, configs.source_root)
+    production_path = os.path.join(project_root, configs.production_root)
     target_path = "problem1"
-    target_name = "Main"
+    target_name = configs.target_entry_class
     target_filename = f"{target_name}.java"
     target_file_path = os.path.join(source_root, target_path, target_filename)
 
@@ -18,10 +22,10 @@ def main():
     inputs = read_file(inputs_path)
     answers = read_file(answers_path)
 
-    proc = compile_code(target_file_path, compile_path)
+    proc = compile_code(target_file_path, production_path)
     proc.communicate()
     for file_name, args in inputs.items():
-        proc = run_code(source_root, compile_path, target_path, target_name, args)
+        proc = run_code(source_root, production_path, target_path, target_name, args)
         out = proc.communicate()[0]
         print(f'{file_name} result: {out == answers[file_name]}')
 
