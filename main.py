@@ -4,11 +4,13 @@ from subprocess import Popen, PIPE
 import hydra
 from omegaconf import OmegaConf
 
+from examples.file_examples import read_file, SimpleFileExamples
+
 
 @hydra.main(config_path='configs', config_name='default_setup')
 def main(configs):
     OmegaConf.set_struct(configs, False)
-    project_root = "/Users/postbg/IdeaProjects/DataStructureAssignment/Assignment1"
+    project_root = configs.project_root
     source_root = os.path.join(project_root, configs.source_root)
     production_path = os.path.join(project_root, configs.production_root)
     target_path = "problem1"
@@ -16,28 +18,15 @@ def main(configs):
     target_filename = f"{target_name}.java"
     target_file_path = os.path.join(source_root, target_path, target_filename)
 
-    assigment_example_path = "/Users/postbg/PycharmProjects/AutoJudge.python/assigment1"
-    inputs_path = f"{assigment_example_path}/inputs"
-    answers_path = f"{assigment_example_path}/answers"
-    inputs = read_file(inputs_path)
-    answers = read_file(answers_path)
+    assigment_examples_root = configs.assigment_examples_root
+    examples = SimpleFileExamples(assigment_examples_root)
 
     proc = compile_code(target_file_path, production_path)
     proc.communicate()
-    for file_name, args in inputs.items():
-        proc = run_code(source_root, production_path, target_path, target_name, args)
+    for i, example in enumerate(examples):
+        proc = run_code(source_root, production_path, target_path, target_name, example.input)
         out = proc.communicate()[0]
-        print(f'{file_name} result: {out == answers[file_name]}')
-
-
-def read_file(inputs_path):
-    input_example_files = os.listdir(inputs_path)
-    inputs = {}
-    for input_example_file in input_example_files:
-        with open(os.path.join(inputs_path, input_example_file), 'rb') as f:
-            args = f.read().replace(b'\r', b'').lstrip(b'\n')
-            inputs[input_example_file] = args
-    return inputs
+        print(f'{i}-th score: {example.get_score(out)}')
 
 
 def compile_code(file_path, compile_path):

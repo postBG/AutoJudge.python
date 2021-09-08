@@ -1,3 +1,7 @@
+defaults:
+  - _self_
+  - assignment: assignment1
 target_entry_class: Main
 source_root: src
 production_root: out
+problem_package_format: problem{}
