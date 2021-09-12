@@ -25,8 +25,7 @@ def unzip(zip_file_path, extracted_file_path=None):
     return extracted_file_path
 
 
-def unzip_all(zip_file_path, extracted_file_path=None):
-    extracted_file_path = unzip(zip_file_path, extracted_file_path)
+def unzip_all(extracted_file_path):
     students_submission_root = find_submission_root(extracted_file_path)
     student_submission_zips = os.listdir(students_submission_root)
     for submission_zip in student_submission_zips:
