@@ -1,8 +1,8 @@
 import os
 import shutil
-from zipfile import ZipFile
+from zipfile import ZipFile, is_zipfile
 
-BAD_FILENAME = ['__MACOSX']
+BAD_FILENAME = ['__MACOSX', '.DS_Store']
 
 
 def find_submission_root(extracted_file_path):
@@ -26,9 +26,10 @@ def unzip(zip_file_path, extracted_file_path=None):
 
 
 def unzip_all(extracted_file_path):
-    students_submission_root = find_submission_root(extracted_file_path)
-    student_submission_zips = os.listdir(students_submission_root)
+    all_files = [os.path.join(extracted_file_path, file_path) for file_path in os.listdir(extracted_file_path)]
+    student_submission_zips = [file_path for file_path in all_files if is_zipfile(file_path)]
+    extracted_file_paths = []
     for submission_zip in student_submission_zips:
-        submission_zip = os.path.join(students_submission_root, submission_zip)
-        unzip(submission_zip)
-    return students_submission_root
+        submission_zip = os.path.join(extracted_file_path, submission_zip)
+        extracted_file_paths.append(unzip(submission_zip))
+    return extracted_file_paths
