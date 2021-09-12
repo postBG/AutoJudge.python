@@ -14,7 +14,7 @@ class SubmissionManager(object):
             out, err = proc.communicate()
             if proc.returncode:
                 print(err)
-            self._submissions_dict[student_id].write_compile_results(err)
+            self._submissions_dict[student_id].update_compile_results(err)
 
     def run_all(self, problem_idx, test_cases):
         for i, test_case in enumerate(test_cases):
@@ -23,4 +23,4 @@ class SubmissionManager(object):
             for student_id, proc in run_procs.items():
                 out = proc.communicate()[0]
                 score = test_case.get_score(out)
-                self._submissions_dict[student_id].write_score(problem_idx, i, score)
+                self._submissions_dict[student_id].update_score(problem_idx, i, score)

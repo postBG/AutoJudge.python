@@ -70,10 +70,10 @@ class AbstractBaseSubmission(abc.ABC):
     def run(self, problem_id, inputs, *args, **kwargs) -> Popen:
         raise NotImplementedError
 
-    def write_compile_results(self, results):
+    def update_compile_results(self, results):
         self._test_results.update_compile_result(results)
 
-    def write_score(self, problem_id, test_case_id, score):
+    def update_score(self, problem_id, test_case_id, score):
         self._test_results.add(problem_id, test_case_id, score)
 
     def get_results(self):
