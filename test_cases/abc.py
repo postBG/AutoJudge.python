@@ -1,5 +1,4 @@
 import abc
-from typing import Tuple
 
 
 class TestCase(object):

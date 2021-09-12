@@ -20,9 +20,28 @@ class TestResult(object):
             total_score += sum(scores.values())
         return total_score
 
+    def summary(self):
+        result_statistics = {}
+        for problem_id, scores in self._scores.items():
+            result_statistics[problem_id] = {
+                'total_score': self.total_score(problem_id),
+                'num_test_cases': len(scores)
+            }
+        result_statistics['total'] = {
+            'total_score': self.total_score(),
+            'num_test_cases': self._count_num_tests()
+        }
+        return result_statistics
+
+    def _count_num_tests(self):
+        total_num_tests = 0
+        for problem_id, scores in self._scores.items():
+            total_num_tests += len(scores)
+        return total_num_tests
+
     def __repr__(self):
-        problem_totals = " ".join([f"problem{i}_total: {self.total_score(i)}" for i in range(len(self._scores))])
-        return f"total score: {self.total_score()} ({problem_totals})"
+        summary = self.summary()
+        return f"summary: {summary['total']}"
 
 
 class AbstractBaseSubmission(abc.ABC):
