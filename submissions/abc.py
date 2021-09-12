@@ -3,10 +3,17 @@ from collections import defaultdict
 from subprocess import Popen
 
 
-class TestResult(object):
+class ResultData(object):
     def __init__(self):
         super().__init__()
+        self._compile_results = None
         self._scores = defaultdict(dict)
+
+    def update_compile_result(self, results):
+        self._compile_results = results
+
+    def get_compile_results(self):
+        return (self._compile_results == b''), self._compile_results
 
     def add(self, problem_id, test_case_id, score):
         self._scores[problem_id][test_case_id] = score
@@ -31,6 +38,7 @@ class TestResult(object):
             'total_score': self.total_score(),
             'num_test_cases': self._count_num_tests()
         }
+        result_statistics['compile_result'] = self._compile_results
         return result_statistics
 
     def _count_num_tests(self):
@@ -41,13 +49,13 @@ class TestResult(object):
 
     def __repr__(self):
         summary = self.summary()
-        return f"summary: {summary['total']}"
+        return f"summary: {summary['total']} ({summary['compile_result']})"
 
 
 class AbstractBaseSubmission(abc.ABC):
     def __init__(self):
         self._compile_results = None
-        self._test_results = TestResult()
+        self._test_results = ResultData()
 
     @property
     @abc.abstractmethod
@@ -63,14 +71,10 @@ class AbstractBaseSubmission(abc.ABC):
         raise NotImplementedError
 
     def write_compile_results(self, results):
-        self._compile_results = results
-
-    def get_compile_results(self):
-        """return True if compiled successfully along with compile_results itself"""
-        return (self._compile_results == b''), self._compile_results
+        self._test_results.update_compile_result(results)
 
     def write_score(self, problem_id, test_case_id, score):
         self._test_results.add(problem_id, test_case_id, score)
 
-    def get_test_results(self):
+    def get_results(self):
         return self._test_results

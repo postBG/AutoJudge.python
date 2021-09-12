@@ -37,4 +37,4 @@ class JavaSubmission(AbstractBaseSubmission):
 
     @staticmethod
     def _target_package(problem_id):
-        return f"problem{problem_id + 1}"
+        return f"problem{problem_id}"

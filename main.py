@@ -27,7 +27,7 @@ def main(configs):
         submission_manager.compile_all(problem_idx)
         submission_manager.run_all(problem_idx, test_cases)
 
-    test_results = {submission.student_id: submission.get_test_results() for submission in submissions}
+    test_results = {submission.student_id: submission.get_results() for submission in submissions}
     export_as_csv(test_results, configs.num_problems, configs.result_path)
     print_to_stdout(test_results)
 
