@@ -5,11 +5,6 @@ from zipfile import ZipFile, is_zipfile
 BAD_FILENAME = ['__MACOSX', '.DS_Store']
 
 
-def find_submission_root(extracted_file_path):
-    dirs = [dir for dir in os.listdir(extracted_file_path) if dir not in BAD_FILENAME]
-    return os.path.join(extracted_file_path, dirs[0])
-
-
 def remove_bad_files(extracted_file_path):
     for dir in os.listdir(extracted_file_path):
         if dir in BAD_FILENAME:
