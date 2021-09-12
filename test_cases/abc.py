@@ -2,7 +2,7 @@ import abc
 from typing import Tuple
 
 
-class Example(object):
+class TestCase(object):
     def __init__(self, input: bytes, answer: bytes, score: float = 1):
         super().__init__()
         self._input = input
@@ -25,9 +25,9 @@ class Example(object):
         return self._score if value == self._answer else 0
 
 
-class AbstractBaseExamples(abc.ABC):
+class AbstractBaseTestCases(abc.ABC):
     @abc.abstractmethod
-    def __getitem__(self, example_idx) -> Example:
+    def __getitem__(self, test_case_idx) -> TestCase:
         raise NotImplementedError
 
     @abc.abstractmethod

@@ -3,23 +3,23 @@ import os
 import hydra
 from omegaconf import OmegaConf
 
-from examples.file_examples import SimpleFileExamples
+from test_cases.file_examples import SimpleFileTestCases
 from java_utils import compile_code, run_code
 
 
 @hydra.main(config_path='configs', config_name='default_setup')
 def main(configs):
     OmegaConf.set_struct(configs, False)
-    project_root = configs.project_root
-    source_root = os.path.join(project_root, configs.source_root)
-    production_path = os.path.join(project_root, configs.production_root)
+    submissions_root = configs.submissions_root
+    source_root = os.path.join(submissions_root, configs.source_root)
+    production_path = os.path.join(submissions_root, configs.production_root)
     target_path = "problem1"
     target_name = configs.target_entry_class
     target_filename = f"{target_name}.java"
     target_file_path = os.path.join(source_root, target_path, target_filename)
 
-    assigment_examples_root = configs.assigment_examples_root
-    examples = SimpleFileExamples(assigment_examples_root)
+    assigment_testcase_root = configs.assigment_testcase_root
+    examples = SimpleFileTestCases(assigment_testcase_root)
 
     proc = compile_code(target_file_path, production_path)
     proc.communicate()

@@ -1,4 +1,4 @@
 #@package _global_
-project_root: "/Users/postbg/IdeaProjects/DataStructureAssignment/Assignment1"
-num_assignment: 1
-assigment_examples_root: "/Users/postbg/PycharmProjects/AutoJudge.python/assigment1"
+submissions_root: "/Users/postbg/Downloads/Assignment1"
+num_problems: 1
+assigment_testcase_root: "/Users/postbg/PycharmProjects/AutoJudge.python/assigment1"
