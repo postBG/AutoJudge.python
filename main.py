@@ -20,7 +20,7 @@ def main(configs):
 
     for problem_idx in range(configs.num_problems):
         target_name = configs.target_entry_class
-        target_package = f"problem{problem_idx + 1}"
+        target_package = f"problem{problem_idx}"
         compile_targets = [os.path.join(source_root, target_package, f"{target_name}.java") for source_root in
                            source_roots]
 
