@@ -12,6 +12,8 @@ class SubmissionManager(object):
                          self._submissions_dict.items()}
         for student_id, proc in compile_procs.items():
             out, err = proc.communicate()
+            if proc.returncode:
+                print(err)
             self._submissions_dict[student_id].write_compile_results(err)
 
     def run_all(self, problem_idx, test_cases):
