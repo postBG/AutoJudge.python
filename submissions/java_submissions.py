@@ -9,19 +9,6 @@ PRODUCTION_ROOT = "snu_out"
 TARGET_CLASS_NAME = "Main"
 
 
-def compile_code(file_path, compile_path):
-    proc = Popen(['javac', '-d', compile_path, file_path])
-    return proc
-
-
-def run_code(project_path, compile_path, target_path, target_name, inputs):
-    classpath = os.path.join(project_path, compile_path)
-    target_class = '.'.join([target_path, target_name])
-    proc = Popen(['java', '-classpath', classpath, target_class], stdin=PIPE, stdout=PIPE)
-    proc.stdin.write(inputs)
-    return proc
-
-
 class JavaSubmission(AbstractBaseSubmission):
     def __init__(self, project_root):
         super().__init__()

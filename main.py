@@ -4,8 +4,8 @@ import hydra
 from omegaconf import OmegaConf
 
 from preparings.unzip import unzip_all
+from submissions.java_submissions import JavaSubmission
 from test_cases.file_examples import SimpleFileTestCases
-from submissions.java_submissions import compile_code, run_code, JavaSubmission
 
 
 @hydra.main(config_path='configs', config_name='default_setup')
