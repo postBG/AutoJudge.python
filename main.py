@@ -5,6 +5,7 @@ from omegaconf import OmegaConf
 
 from preparings.unzip import unzip_all
 from submissions.java_submissions import JavaSubmission
+from submissions.submission_manager import SubmissionManager
 from test_cases.file_examples import SimpleFileTestCases
 
 
@@ -16,20 +17,17 @@ def main(configs):
     student_project_roots = [os.path.join(submission_root, configs.assignment_root_name)
                              for submission_root in student_submission_roots]
     submissions = [JavaSubmission(project_root) for project_root in student_project_roots]
+    submission_manager = SubmissionManager(submissions)
 
     for problem_idx in range(configs.num_problems):
         assigment_testcase_root = configs.assigment_testcase_root
         test_cases = SimpleFileTestCases(assigment_testcase_root)
 
-        compile_procs = [submission.compile(problem_idx) for submission in submissions]
-        for proc in compile_procs:
-            proc.communicate()
+        submission_manager.compile_all(problem_idx)
+        submission_manager.run_all(problem_idx, test_cases)
 
-        for i, test_case in enumerate(test_cases):
-            test_procs = [submission.run(problem_idx, test_case.input) for submission in submissions]
-            for proc in test_procs:
-                out = proc.communicate()[0]
-                print(f'{i}-th score: {test_case.get_score(out)}')
+        for submission in submissions:
+            print(submission.student_id, submission.get_test_summary()[0])
 
 
 if __name__ == '__main__':
