@@ -3,10 +3,28 @@ from collections import defaultdict
 from subprocess import Popen
 
 
+class TestResult(object):
+    def __init__(self):
+        super().__init__()
+        self._scores = defaultdict(dict)
+
+    def add(self, problem_id, test_case_id, score):
+        self._scores[problem_id][test_case_id] = score
+
+    def total_score(self, problem_id=None):
+        if problem_id:
+            return sum(self._scores[problem_id].values())
+
+        total_score = 0
+        for problem_id, scores in self._scores.items():
+            total_score += sum(scores.values())
+        return total_score
+
+
 class AbstractBaseSubmission(abc.ABC):
     def __init__(self):
         self._compile_results = None
-        self._scores = defaultdict(dict)
+        self._test_results = TestResult()
 
     @property
     @abc.abstractmethod
@@ -29,11 +47,7 @@ class AbstractBaseSubmission(abc.ABC):
         return (self._compile_results == b''), self._compile_results
 
     def write_score(self, problem_id, test_case_id, score):
-        self._scores[problem_id][test_case_id] = score
+        self._test_results.add(problem_id, test_case_id, score)
 
-    def get_test_summary(self):
-        """return total_score with scores itself"""
-        total_score = 0
-        for problem_id, scores in self._scores.items():
-            total_score += sum(scores.values())
-        return total_score, self._scores
+    def get_test_results(self):
+        return self._test_results

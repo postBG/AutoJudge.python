@@ -4,6 +4,7 @@ import hydra
 from omegaconf import OmegaConf
 
 from preparings.unzip import unzip_all
+from reports.csv import export_as_csv
 from submissions.java_submissions import JavaSubmission
 from submissions.submission_manager import SubmissionManager
 from test_cases.file_examples import SimpleFileTestCases
@@ -26,8 +27,8 @@ def main(configs):
         submission_manager.compile_all(problem_idx)
         submission_manager.run_all(problem_idx, test_cases)
 
-        for submission in submissions:
-            print(submission.student_id, submission.get_test_summary()[0])
+    test_results = {submission.student_id: submission.get_test_results() for submission in submissions}
+    export_as_csv(test_results, configs.num_problems, configs.result_path)
 
 
 if __name__ == '__main__':
