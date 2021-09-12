@@ -20,6 +20,10 @@ class TestResult(object):
             total_score += sum(scores.values())
         return total_score
 
+    def __repr__(self):
+        problem_totals = " ".join([f"problem{i}_total: {self.total_score(i)}" for i in range(len(self._scores))])
+        return f"total score: {self.total_score()} ({problem_totals})"
+
 
 class AbstractBaseSubmission(abc.ABC):
     def __init__(self):

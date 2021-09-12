@@ -1,5 +1,5 @@
 #@package _global_
-assignment_root_name: "Assignment1"
+assignment_root_name: "Assignment0"
 submissions_root: "/Users/postbg/Downloads/DS"
 num_problems: 1
 assigment_testcase_root: "/Users/postbg/PycharmProjects/AutoJudge.python/assigment1"
