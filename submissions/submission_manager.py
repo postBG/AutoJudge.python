@@ -5,14 +5,17 @@ from typing import List
 from submissions.abc import AbstractBaseSubmission
 
 
-class Counter(object):
+class CompileResult(object):
     def __init__(self):
         self.lock = Lock()
-        self.count = 0
+        self.failed_students = []
 
-    def increment(self, offset):
+    def increment(self, student_id):
         with self.lock:
-            self.count += offset
+            self.failed_students.append(student_id)
+
+    def __len__(self):
+        return len(self.failed_students)
 
 
 class SubmissionManager(object):
@@ -20,16 +23,16 @@ class SubmissionManager(object):
         self._submissions_dict = {submission.student_id: submission for submission in submissions}
 
     def compile_all(self, *args, **kwargs):
-        error_cnt = Counter()
+        result = CompileResult()
         compile_procs = {student_id: submission.compile() for student_id, submission in
                          self._submissions_dict.items()}
         for student_id, proc in compile_procs.items():
             out, err = proc.communicate()
             if proc.returncode:
-                error_cnt.increment(1)
+                result.increment(student_id)
                 print(err)
             self._submissions_dict[student_id].update_compile_results(err)
-        print(f"Compile Failure: {error_cnt.count} / {len(self._submissions_dict)}")
+        return result
 
     def run_all(self, test_cases, timeout=10):
         for i, test_case in enumerate(test_cases):

@@ -23,7 +23,9 @@ def main(configs):
     print(f"{len(test_cases)} Test Cases Detected.")
 
     print(f"Compile Started!")
-    submission_manager.compile_all()
+    failed_results = submission_manager.compile_all()
+    print(f"Compile Failure: {len(failed_results)} / {len(submissions)}")
+    print(f"Failed Students: {failed_results.failed_students}")
     print(f"Compile Ended!")
 
     print(f"Test Started!")
