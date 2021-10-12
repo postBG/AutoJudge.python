@@ -4,6 +4,10 @@ from zipfile import ZipFile, is_zipfile
 
 def unzip(zip_file_path, extracted_file_path=None):
     extracted_file_path = extracted_file_path if extracted_file_path else zip_file_path.rstrip('.zip')
+
+    if os.path.exists(extracted_file_path):
+        return extracted_file_path
+
     with ZipFile(zip_file_path) as zip_file:
         zip_file.extractall(extracted_file_path)
     return extracted_file_path
