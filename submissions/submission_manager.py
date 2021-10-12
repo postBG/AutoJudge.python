@@ -1,3 +1,4 @@
+from subprocess import TimeoutExpired
 from threading import Lock
 from typing import List
 
@@ -36,6 +37,10 @@ class SubmissionManager(object):
             run_procs = {student_id: submission.run(test_case.input) for student_id, submission in
                          self._submissions_dict.items()}
             for student_id, proc in run_procs.items():
-                out = proc.communicate()[0]
-                score = test_case.get_score(out)
-                self._submissions_dict[student_id].update_score(test_case.test_id, score)
+                try:
+                    out = proc.communicate(timeout=10)[0]
+                    score = test_case.get_score(out)
+                    self._submissions_dict[student_id].update_score(test_case.test_id, score)
+                except TimeoutExpired:
+                    self._submissions_dict[student_id].update_score(test_case.test_id, score=0)
+                    proc.kill()
