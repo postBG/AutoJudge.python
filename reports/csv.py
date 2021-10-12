@@ -9,7 +9,7 @@ def export_as_csv(test_results, num_test_cases, result_path):
         wr.writerow(header)
         for student_id, test_result in test_results.items():
             summary = test_result.summary()
-            test_ids = summary['tests'].keys()
+            test_ids = list(summary['tests'].keys())
             test_ids.sort()
 
             content = [student_id, summary['num_test_cases'], summary['total_score']]

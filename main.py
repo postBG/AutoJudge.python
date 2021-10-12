@@ -15,14 +15,21 @@ def main(configs):
     OmegaConf.set_struct(configs, False)
     submissions_root = configs.submissions_root
     student_submission_roots = unzip_all(submissions_root)
-    project_roots = [to_project_roots(submission_root) for submission_root in student_submission_roots]
+    project_roots = to_project_roots(student_submission_roots)
+    print(project_roots)
     submissions = [JavaSubmission(project_root) for project_root in project_roots]
     submission_manager = SubmissionManager(submissions)
 
     test_cases = test_cases_factory(configs)
+    print(f"{len(test_cases)} Test Cases Detected.")
 
+    print(f"Compile Started!")
     submission_manager.compile_all()
+    print(f"Compile Ended!")
+
+    print(f"Test Started!")
     submission_manager.run_all(test_cases)
+    print(f"Test Ended!")
 
     test_results = {submission.student_id: submission.get_results() for submission in submissions}
     export_as_csv(test_results, len(test_cases), configs.result_path)

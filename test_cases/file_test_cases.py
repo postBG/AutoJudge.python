@@ -3,9 +3,11 @@ from collections import OrderedDict
 
 from test_cases.abc import AbstractBaseTestCases, TestCase
 
+_BAD_FILES = ['.DS_Store']
+
 
 def read_file(inputs_path):
-    input_example_files = os.listdir(inputs_path)
+    input_example_files = [f for f in os.listdir(inputs_path) if f not in _BAD_FILES]
     inputs = OrderedDict()
     for input_example_file in input_example_files:
         with open(os.path.join(inputs_path, input_example_file), 'rb') as f:

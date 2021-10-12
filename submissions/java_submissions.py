@@ -18,8 +18,9 @@ class JavaSubmission(AbstractBaseSubmission):
         self._production_root = os.path.join(project_root, PRODUCTION_ROOT)
 
     def compile(self, *args, **kwargs) -> Popen:
-        compile_target = os.path.join(self._source_root, '**', "*.java")
-        proc = Popen(['javac', '-cp . -d', self._production_root, compile_target], stdout=PIPE, stderr=PIPE)
+        compile_target = os.path.join(self._source_root, "Main.java")
+        proc = Popen(['javac', '-cp', '.', '-d', self._production_root, compile_target, '-encoding', 'utf-8'],
+                     stdout=PIPE, stderr=PIPE)
         return proc
 
     def run(self, inputs, *args) -> Popen:
