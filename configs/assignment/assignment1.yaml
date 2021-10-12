@@ -1,6 +1,6 @@
 #@package _global_
 submissions_root: "/Users/postbg/DataStructures/A1/Assignment1"
 num_problems: 1
-result_path: "/Users/postbg/Downloads/Assignment1/result.csv"
+result_path: "/Users/postbg/DataStructures/A1/result.csv"
 test_cases_code: simple_file
-assigment_testcase_root: "/Users/postbg/Downloads/Testcase"
+assigment_testcase_root: "/Users/postbg/DataStructures/A1/Testcase"
