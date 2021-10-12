@@ -28,8 +28,8 @@ class SimpleFileTestCases(AbstractBaseTestCases):
         self._validate_files(inputs, outputs)
 
         examples = []
-        for k, input in inputs.items():
-            examples.append(TestCase(input, outputs[k]))
+        for file_name, input in inputs.items():
+            examples.append(TestCase(input, outputs[file_name], test_id=file_name))
         return examples
 
     def __getitem__(self, test_case_idx) -> TestCase:

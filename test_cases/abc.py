@@ -2,11 +2,12 @@ import abc
 
 
 class TestCase(object):
-    def __init__(self, input: bytes, answer: bytes, score: float = 1):
+    def __init__(self, input: bytes, answer: bytes, score: float = 1, test_id=None):
         super().__init__()
         self._input = input
         self._answer = answer
         self._score = score
+        self._test_id = test_id
 
     @property
     def input(self):
@@ -19,6 +20,10 @@ class TestCase(object):
     @property
     def score(self):
         return self._score
+
+    @property
+    def test_id(self):
+        return self._test_id
 
     def get_score(self, value):
         return self._score if value == self._answer else 0

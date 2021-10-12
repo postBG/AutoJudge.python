@@ -17,12 +17,12 @@ class JavaSubmission(AbstractBaseSubmission):
         self._source_root = os.path.join(project_root, SOURCE_ROOT)
         self._production_root = os.path.join(project_root, PRODUCTION_ROOT)
 
-    def compile(self, problem_id, *args, **kwargs) -> Popen:
+    def compile(self, *args, **kwargs) -> Popen:
         compile_target = os.path.join(self._source_root, '**', "*.java")
         proc = Popen(['javac', '-cp . -d', self._production_root, compile_target], stdout=PIPE, stderr=PIPE)
         return proc
 
-    def run(self, problem_id, inputs, *args, **kwargs) -> Popen:
+    def run(self, inputs, *args) -> Popen:
         classpath = self._production_root
         proc = Popen(['java', '-classpath', classpath, TARGET_CLASS_NAME], stdin=PIPE, stdout=PIPE, stderr=PIPE)
         proc.stdin.write(inputs)

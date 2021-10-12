@@ -15,41 +15,27 @@ class ResultData(object):
     def get_compile_results(self):
         return (self._compile_results == b''), self._compile_results
 
-    def add(self, problem_id, test_case_id, score):
-        self._scores[problem_id][test_case_id] = score
+    def add(self, test_id, score):
+        self._scores[test_id] = score
 
-    def total_score(self, problem_id=None):
-        if problem_id:
-            return sum(self._scores[problem_id].values())
-
-        total_score = 0
-        for problem_id, scores in self._scores.items():
-            total_score += sum(scores.values())
-        return total_score
+    def total_score(self):
+        return sum(self._scores.values())
 
     def summary(self):
-        result_statistics = {}
-        for problem_id, scores in self._scores.items():
-            result_statistics[problem_id] = {
-                'total_score': self.total_score(problem_id),
-                'num_test_cases': len(scores)
-            }
-        result_statistics['total'] = {
+        result_statistics = {
             'total_score': self.total_score(),
-            'num_test_cases': self._count_num_tests()
+            'num_test_cases': self._count_num_tests(),
+            'compile_result': self._compile_results,
+            'tests': self._scores
         }
-        result_statistics['compile_result'] = self._compile_results
         return result_statistics
 
     def _count_num_tests(self):
-        total_num_tests = 0
-        for problem_id, scores in self._scores.items():
-            total_num_tests += len(scores)
-        return total_num_tests
+        return len(self._scores)
 
     def __repr__(self):
         summary = self.summary()
-        return f"summary: {summary['total']} ({summary['compile_result']})"
+        return f"summary: {summary['total_score']} ({summary['compile_result']})"
 
 
 class AbstractBaseSubmission(abc.ABC):
@@ -67,14 +53,14 @@ class AbstractBaseSubmission(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def run(self, problem_id, inputs, *args, **kwargs) -> Popen:
+    def run(self, inputs, *args, **kwargs) -> Popen:
         raise NotImplementedError
 
     def update_compile_results(self, results):
         self._test_results.update_compile_result(results)
 
-    def update_score(self, problem_id, test_case_id, score):
-        self._test_results.add(problem_id, test_case_id, score)
+    def update_score(self, test_case_id, score):
+        self._test_results.add(test_case_id, score)
 
     def get_results(self):
         return self._test_results

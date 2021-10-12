@@ -19,14 +19,13 @@ def main(configs):
     submissions = [JavaSubmission(project_root) for project_root in project_roots]
     submission_manager = SubmissionManager(submissions)
 
-    for problem_idx in range(configs.num_problems):
-        test_cases = test_cases_factory(configs)
+    test_cases = test_cases_factory(configs)
 
-        submission_manager.compile_all(problem_idx)
-        submission_manager.run_all(problem_idx, test_cases)
+    submission_manager.compile_all()
+    submission_manager.run_all(test_cases)
 
     test_results = {submission.student_id: submission.get_results() for submission in submissions}
-    export_as_csv(test_results, configs.num_problems, configs.result_path)
+    export_as_csv(test_results, len(test_cases), configs.result_path)
     print_to_stdout(test_results)
 
 
