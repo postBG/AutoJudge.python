@@ -1,9 +1,18 @@
 import os
 
+_BAD_FILES = ['__MACOSX']
+
+
+def bad_directories(root):
+    for f in _BAD_FILES:
+        if f in root:
+            return True
+    return False
+
 
 def find_src_root(search_root):
     for root, dirs, files in os.walk(search_root):
-        if root.endswith('src'):
+        if root.endswith('src') and not bad_directories(root):
             return root
 
 
