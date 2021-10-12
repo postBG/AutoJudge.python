@@ -1,6 +1,7 @@
 #@package _global_
 assignment_root_name: "Assignment1"
-submissions_root: "/Users/postbg/Downloads/Assignment0_"
+submissions_root: "/Users/postbg/Downloads/Assignment1"
 num_problems: 1
-result_path: "/Users/postbg/Downloads/Assignment0_/result.csv"
-test_cases_code: assignment0_manual
+result_path: "/Users/postbg/Downloads/Assignment1/result.csv"
+test_cases_code: simple_file
+assigment_testcase_root: "/Users/postbg/Downloads/Testcase"
