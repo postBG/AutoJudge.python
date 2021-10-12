@@ -31,14 +31,14 @@ class SubmissionManager(object):
             self._submissions_dict[student_id].update_compile_results(err)
         print(f"Compile Failure: {error_cnt.count} / {len(self._submissions_dict)}")
 
-    def run_all(self, test_cases):
+    def run_all(self, test_cases, timeout=10):
         for i, test_case in enumerate(test_cases):
             print(f"Start {test_case.test_id}")
             run_procs = {student_id: submission.run(test_case.input) for student_id, submission in
                          self._submissions_dict.items()}
             for student_id, proc in run_procs.items():
                 try:
-                    out = proc.communicate(timeout=10)[0]
+                    out = proc.communicate(timeout=timeout)[0]
                     score = test_case.get_score(out)
                     self._submissions_dict[student_id].update_score(test_case.test_id, score)
                 except TimeoutExpired:

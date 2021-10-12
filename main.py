@@ -27,7 +27,7 @@ def main(configs):
     print(f"Compile Ended!")
 
     print(f"Test Started!")
-    submission_manager.run_all(test_cases)
+    submission_manager.run_all(test_cases, timeout=configs.timeout)
     print(f"Test Ended!")
 
     test_results = {submission.student_id: submission.get_results() for submission in submissions}
