@@ -26,7 +26,16 @@ class TestCase(object):
         return self._test_id
 
     def get_score(self, value):
-        return self._score if value == self._answer else 0
+        answers_per_lines = self._answer.decode('utf-8').split('\n')
+        values_per_lines = value.decode('utf-8').split('\n')
+        if len(answers_per_lines) != len(values_per_lines):
+            return 0
+
+        for l1, l2 in zip(answers_per_lines, values_per_lines):
+            if l1.strip() != l2.strip():
+                return 0
+
+        return self._score
 
 
 class AbstractBaseTestCases(abc.ABC):
