@@ -4,3 +4,4 @@ num_problems: 1
 result_path: "/Users/postbg/DataStructures/A2/result"
 test_cases_code: simple_file
 assigment_testcase_root: "/Users/postbg/DataStructures/A2/Testcase"
+output_path: "/Users/postbg/DataStructures/A2/outputs"

@@ -4,6 +4,7 @@ from omegaconf import OmegaConf
 from preparings.unzip import unzip_all
 from preparings.utils import to_project_roots
 from reports.csv import export_as_csv
+from reports.outputs import export_outputs
 from reports.stdout import print_to_stdout
 from submissions.java_submissions import JavaSubmission
 from submissions.submission_manager import SubmissionManager
@@ -34,6 +35,7 @@ def main(configs):
 
     test_results = {submission.student_id: submission.get_results() for submission in submissions}
     export_as_csv(test_results, len(test_cases), configs.result_path)
+    export_outputs(test_results, configs.output_path)
     print_to_stdout(test_results)
 
 
