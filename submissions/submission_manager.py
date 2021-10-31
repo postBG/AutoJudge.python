@@ -44,6 +44,8 @@ class SubmissionManager(object):
                     out = proc.communicate(timeout=timeout)[0]
                     score = test_case.get_score(out)
                     self._submissions_dict[student_id].update_score(test_case.test_id, score)
+                    self._submissions_dict[student_id].update_output(test_case.test_id, out)
                 except TimeoutExpired:
                     self._submissions_dict[student_id].update_score(test_case.test_id, score=0)
+                    self._submissions_dict[student_id].update_output(test_case.test_id, "Time Expired!")
                     proc.kill()

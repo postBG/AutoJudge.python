@@ -8,6 +8,7 @@ class ResultData(object):
         super().__init__()
         self._compile_results = None
         self._scores = defaultdict(dict)
+        self._outputs = {}
 
     def update_compile_result(self, results):
         self._compile_results = results
@@ -18,6 +19,11 @@ class ResultData(object):
     def add(self, test_id, score):
         self._scores[test_id] = score
 
+    def add_output(self, test_id, output):
+        if isinstance(output, bytes):
+            output = output.decode('utf-8')
+        self._outputs[test_id] = output
+
     def total_score(self):
         return sum(self._scores.values())
 
@@ -26,7 +32,8 @@ class ResultData(object):
             'total_score': self.total_score(),
             'num_test_cases': self._count_num_tests(),
             'compile_result': self._compile_results,
-            'tests': self._scores
+            'tests': self._scores,
+            'outputs': self._outputs
         }
         return result_statistics
 
@@ -61,6 +68,9 @@ class AbstractBaseSubmission(abc.ABC):
 
     def update_score(self, test_case_id, score):
         self._test_results.add(test_case_id, score)
+
+    def update_output(self, test_case_id, output):
+        self._test_results.add_output(test_case_id, output)
 
     def get_results(self):
         return self._test_results
