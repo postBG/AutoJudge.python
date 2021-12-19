@@ -1,4 +1,5 @@
 import random
+
 random.seed(10)
 
 from test_cases.abc import AbstractBaseTestCases, TestCase
@@ -7,7 +8,8 @@ from test_cases.abc import AbstractBaseTestCases, TestCase
 class SimpleManualTestCases(AbstractBaseTestCases):
     def __init__(self, inputs, answers):
         super().__init__()
-        self._test_cases = [TestCase(input, answer) for input, answer in zip(inputs, answers)]
+        self._test_cases = [TestCase(input, answer, test_id=i) for i, (input, answer) in
+                            enumerate(zip(inputs, answers))]
 
     def __getitem__(self, test_case_idx) -> TestCase:
         return self._test_cases[test_case_idx]
@@ -40,7 +42,7 @@ class Assignment3ManualTestCases(AbstractBaseTestCases):
     def __init__(self):
         super().__init__()
         sortings = ['B', 'I', 'Q', 'T', 'M', 'R']
-        sizes = [1, 2, *[random.randint(1, 500) for _ in range(5)]]
+        sizes = [1, 2, *[random.randint(1, 50) for _ in range(3)]]
         numbers_list = [[random.randint(-100000, 100000) for _ in range(size)] for size in sizes]
         sorted_list = [sorted(numbers) for numbers in numbers_list]
 
@@ -50,10 +52,9 @@ class Assignment3ManualTestCases(AbstractBaseTestCases):
         inputs = []
         answers = []
         for sorting in sortings:
-            for size in sizes:
-                for numbers, sorted_numbers in zip(numbers_list, sorted_numbers_list):
-                    inputs.append(self.to_str(sorting, size, numbers))
-                    answers.append(sorted_numbers)
+            for size, numbers, sorted_numbers in zip(sizes, numbers_list, sorted_numbers_list):
+                inputs.append(self.to_str(sorting, size, numbers))
+                answers.append(sorted_numbers)
 
         bytes_inputs = [bytes(tc, "utf-8") for tc in inputs]
         bytes_answers = [bytes(ans, 'utf-8') for ans in answers]

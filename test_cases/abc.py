@@ -26,8 +26,8 @@ class TestCase(object):
         return self._test_id
 
     def get_score(self, value):
-        answers_per_lines = self._answer.decode('utf-8').split('\n')
-        values_per_lines = value.decode('utf-8').split('\n')
+        answers_per_lines = self._answer.replace(b'\r', b'').strip(b'\n').decode('utf-8').split('\n')
+        values_per_lines = value.replace(b'\r', b'').strip(b'\n').decode('utf-8').split('\n')
         if len(answers_per_lines) != len(values_per_lines):
             return 0
 
