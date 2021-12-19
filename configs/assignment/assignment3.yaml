@@ -2,6 +2,5 @@
 submissions_root: "/Users/postbg/DataStructures/A3/Assignment3"
 num_problems: 1
 result_path: "/Users/postbg/DataStructures/A3/result"
-test_cases_code: simple_file
-assigment_testcase_root: "/Users/postbg/DataStructures/A3/Testcase"
+test_cases_code: assignment3_manual
 output_path: "/Users/postbg/DataStructures/A3/outputs"
