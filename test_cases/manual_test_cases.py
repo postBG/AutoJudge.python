@@ -1,4 +1,5 @@
 import random
+random.seed(10)
 
 from test_cases.abc import AbstractBaseTestCases, TestCase
 
