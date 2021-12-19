@@ -1,0 +1,7 @@
+#@package _global_
+submissions_root: "/Users/postbg/DataStructures/A3/Assignment3"
+num_problems: 1
+result_path: "/Users/postbg/DataStructures/A3/result"
+test_cases_code: simple_file
+assigment_testcase_root: "/Users/postbg/DataStructures/A3/Testcase"
+output_path: "/Users/postbg/DataStructures/A3/outputs"
