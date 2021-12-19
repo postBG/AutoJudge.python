@@ -1,6 +1,6 @@
 import os
 
-_BAD_FILES = ['__MACOSX']
+_BAD_FILES = ['__MACOSX', '.metadata']
 
 
 def bad_directories(root):
